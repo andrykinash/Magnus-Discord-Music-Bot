@@ -1,7 +1,6 @@
-const {SlashCommandBuilder} = require("@discordjs/builders");
-const {Interaction, MessageEmbed} = require("discord.js");
+const { SlashCommandBuilder } = require("@discordjs/builders");
+const { Interaction, MessageEmbed } = require("discord.js");
 const fetch = require("node-fetch");
-
 
 module.exports = {
    data: new SlashCommandBuilder()
@@ -24,35 +23,44 @@ module.exports = {
            * @param {Interaction} interaction
            * @param {String[]} args
            */
-          async execute(interaction){
-           const player = interaction.options.getString("player");
-           const platform = interaction.options.getString("platform");
-           //await interaction.deferReply()
-           const gamertag = new URLSearchParams({ player });
-           const source = new URLSearchParams({ platform });
-           
-           
-           const { data } = await fetch(`https://call-of-duty-modern-warfare.p.rapidapi.com/warzone/${gamertag}/${source}`, {
+          async execute(interaction) {
+            const player = interaction.options.getString("player");
+            const platform = interaction.options.getString("platform");
+
+            await interaction.deferReply(); // Defer the reply
+
+            const url = `https://call-of-duty-modern-warfare.p.rapidapi.com/warzone/${player}/${platform}`;
+
+            try {
+              const response = await fetch(url, {
                 method: "GET",
                 headers: {
                   "x-rapidapi-host": "call-of-duty-modern-warfare.p.rapidapi.com",
                   "x-rapidapi-key": "6fc0286367msh1fe9dce4d6f860dp113b13jsn444396710dd8"
                 }
-                
-              })
-              .then(response => response.json());
-               
-                const [answer] = data;
+              });
 
-                const embed = new MessageEmbed()
-                  .setColor('RANDOM')
-                  .setTitle("Player Stats")
-                  .addFields(
-                    {name: "kills", value: DataTransferItem(answer.kdRatio)},
-                  );
-                  interaction.editReply({embeds: [embed]});
+              const data = await response.json();
+
+              if (!data || !data.br) {
+                return interaction.editReply("Player stats not found or an error occurred.");
+              }
+
+              const embed = new MessageEmbed()
+                .setColor('RANDOM')
+                .setTitle("Player Stats")
+                .addFields(
+                  { name: "Kills", value: `${data.br.kills}`, inline: true },
+                  { name: "K/D Ratio", value: `${data.br.kdRatio}`, inline: true }
+                );
+
+              await interaction.editReply({ embeds: [embed] });
+
+            } catch (error) {
+              console.error(error);
+              interaction.editReply("There was an error retrieving the player stats.");
+            }
           },
-            
-          
 };
+
 
