@@ -1,7 +1,7 @@
 # Magnus Discord Music Bot
 
 ## Description
-Magnus is a powerful and customizable Discord music bot designed to enhance your server's music experience. The bot allows users to play music from various sources directly into their voice channels, manage queues, and control playback with ease. It also includes a variety of built-in and custom slash commands to interact with the bot.
+Magnus is a powerful and customizable Discord music bot designed to enhance your server's music experience. The bot allows users to play music from various sources directly into their voice channels, manage queues, and control playback with ease. It also includes a variety of built-in and custom slash commands to interact with the bot using API's.
 
 ## Languages and Utilities Used
 - **JavaScript**
@@ -13,7 +13,7 @@ Magnus is a powerful and customizable Discord music bot designed to enhance your
 - **Node.js v14+**
 
 ### Custom Commands:
-Custom commands added specifically for the Magnus bot's functionality:
+Custom commands for the Magnus bot's functionality:
 
 - **/cat**: Displays a cute cat picture.
 - **/getqueue**: Shows the current music queue.
@@ -33,9 +33,3 @@ Custom commands added specifically for the Magnus bot's functionality:
 - **/w [user] [message]**: Sends a message to one of your friends via the bot.
 
 
-## Program Walk-through:
-
-### Launch the bot:
-This is where you start the Magnus bot, ready to take commands in your Discord server.
-```bash
-node Magnus.js
